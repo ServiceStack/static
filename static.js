@@ -1,4 +1,6 @@
-window.$static = (function(){
+(function(){
+    var root = this;
+
     var HEROS = ["black-white-city.jpg",
 "photo-1421789665209-c9b2a435e3dc.jpg",
 "photo-1422207134147-65fb81f59e38.jpg",
@@ -154,7 +156,7 @@ window.$static = (function(){
     function hourOfYear(d) {
         return dayOfYear(d) * 24 + d.getHours();
     }
-    return {
+    var $static = {
         baseUrl: baseUrl,
         heros: HEROS,
         getRandomHero: function() {
@@ -164,4 +166,13 @@ window.$static = (function(){
             return baseUrl + "hero/" + HEROS[hourOfYear(d || new Date()) % HEROS.length];
         }
     };
+
+    if (typeof exports !== 'undefined') {
+        if (typeof module !== 'undefined' && module.exports) {
+            exports = module.exports = $static;
+        }
+        exports = $static;
+    } else {
+        root.$static = $static;
+    }
 })();

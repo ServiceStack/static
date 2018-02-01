@@ -2,7 +2,9 @@
 
 const fs = require("fs");
 
-var tpl = `window.$static = (function(){
+var tpl = `(function(){
+    var root = this;
+
     var HEROS = [HEROS];
     var baseUrl = "https://servicestack.github.io/static/";
     var daysCount = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
@@ -12,7 +14,7 @@ var tpl = `window.$static = (function(){
     function hourOfYear(d) {
         return dayOfYear(d) * 24 + d.getHours();
     }
-    return {
+    var $static = {
         baseUrl: baseUrl,
         heros: HEROS,
         getRandomHero: function() {
@@ -22,6 +24,15 @@ var tpl = `window.$static = (function(){
             return baseUrl + "hero/" + HEROS[hourOfYear(d || new Date()) % HEROS.length];
         }
     };
+
+    if (typeof exports !== 'undefined') {
+        if (typeof module !== 'undefined' && module.exports) {
+            exports = module.exports = $static;
+        }
+        exports = $static;
+    } else {
+        root.$static = $static;
+    }
 })();`
 
 var HEROS = "[";
