@@ -14,6 +14,19 @@ var tpl = `(function(){
     function hourOfYear(d) {
         return dayOfYear(d) * 24 + d.getHours();
     }
+    function hashCode(s){
+        if (!s)
+            return 0;
+        if (typeof s != 'string')
+            s = s.toString();
+        var hash = 0;
+        for (var i = 0; i < s.length; i++) {
+            var c = s.charCodeAt(i);
+            hash = ((hash<<5)-hash)+c;
+            hash = hash & hash;
+        }
+        return Math.abs(hash);
+    }
     var $static = {
         baseUrl: baseUrl,
         heros: HEROS,
@@ -22,6 +35,9 @@ var tpl = `(function(){
         },
         getActiveHero: function(d) {
             return baseUrl + "hero/" + HEROS[hourOfYear(d || new Date()) % HEROS.length];
+        },
+        getStaticHero: function(str, modifier) {
+            return baseUrl + "hero/" + HEROS[(hashCode(str) + (modifier || 0)) % HEROS.length];
         }
     };
 
