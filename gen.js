@@ -27,17 +27,21 @@ var tpl = `(function(){
         }
         return Math.abs(hash);
     }
+    function getHeroAt(i) {
+        return baseUrl + "hero/" + HEROS[i % HEROS.length];
+    }
     var $static = {
         baseUrl: baseUrl,
         heros: HEROS,
+        getHeroAt: getHeroAt,
         getRandomHero: function() {
-            return baseUrl + "hero/" + HEROS[Math.floor(Math.random() * HEROS.length)];
+            return getHeroAt(Math.floor(Math.random() * HEROS.length));
         },
-        getActiveHero: function(d) {
-            return baseUrl + "hero/" + HEROS[hourOfYear(d || new Date()) % HEROS.length];
+        getHourlyHero: function(d) {
+            return getHeroAt(hourOfYear(d || new Date()));
         },
         getStaticHero: function(str, modifier) {
-            return baseUrl + "hero/" + HEROS[(hashCode(str) + (modifier || 0)) % HEROS.length];
+            return getHeroAt(hashCode(str) + (modifier || 0));
         }
     };
 
