@@ -179,11 +179,11 @@
         getRandomHero: function() {
             return getHeroAt(Math.floor(Math.random() * HEROS.length));
         },
-        getDailyHero: function(d) {
-            return getHeroAt(dayOfYear(d || new Date()));
+        getDailyHero: function(d, modifier) {
+            return getHeroAt(dayOfYear(d || new Date()) + (modifier || 0));
         },
-        getHourlyHero: function(d) {
-            return getHeroAt(hourOfYear(d || new Date()));
+        getHourlyHero: function(d, modifier) {
+            return getHeroAt(hourOfYear(d || new Date()) + (modifier || 0));
         },
         getStaticHero: function(str, modifier) {
             return getHeroAt(hashCode(str) + (modifier || 0));
